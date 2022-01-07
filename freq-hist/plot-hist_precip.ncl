@@ -3,14 +3,16 @@ begin
 out_format = "pdf"
 ;var="PRECC_MASKI"
 
+fdir="../DATA/pdf-freq/"
+
 if (namesuff .eq. "def") then
   namesuff="def"
-  gridlist = (/"tau3600_"+var,"dtime900_"+var,"dtime1800_"+var/)
+  gridlist = (/"dtime450_"+var,"dtime900_"+var,"dtime1800_"+var/)
   configs_pretty=(/"dt~B~450~N~","dt~B~900~N~","dt~B~1800~N~"/)
   color_ix = (/0,2,4/)
 else if (namesuff .eq. "sens") then
   namesuff="sens"
-  gridlist = (/"tau3600_"+var,"tau900_"+var,"tau3600_lowdmpdz2_"+var/)
+  gridlist = (/"dtime450_"+var,"dtime450_tau900_"+var,"dtime450_lowdmpdz_"+var/)
   configs_pretty=(/"dt~B~450","dt~B~450,~F8~t~F~-~N~","dt~B~450,dmpdz~N~"/)
   color_ix = (/0,1,3/)
 else
@@ -78,7 +80,7 @@ gridname = gridlist(file_step)
 print("Doing grid: "+gridname)
 
 fname="OUT_"+gridname+".nc"
-f1=addfile(fname,"r")
+f1=addfile(fdir+"/"+fname,"r")
 
 nlengths = dimsizes(f1->hvar_small)
 nlengthl = dimsizes(f1->hvar_large)
