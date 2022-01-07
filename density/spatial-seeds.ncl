@@ -1,4 +1,4 @@
-ncfile="netcdf-files/netcdf_NATL_tau_seed_configs.nc"
+ncfile="../DATA/cymep/netcdf/cymep_NATL_seeds.nc"
 f = addfile(ncfile,"r")
 
 out_type="pdf"

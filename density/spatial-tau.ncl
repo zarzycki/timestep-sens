@@ -6,7 +6,7 @@ letterstr=(/"a.","b.","c.","d.","e.","f.","g.","h.","i.","j.","k.","l."/)
 
 ; ========================================================================
 
-ncdf = addfile("./netcdf-files/netcdf_NATL_tau_configs.nc" ,"r")  ; open output netCDF file
+ncdf = addfile("../DATA/cymep/netcdf/cymep_NATL_tc.nc" ,"r")  ; open output netCDF file
 modelnames = tostring(ncdf->model_names)
 basin=1
 basinstr="NATL"
