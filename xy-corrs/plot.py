@@ -14,11 +14,11 @@ tcfreqarr = [10.7,13.2,19.5]
 #thisvar="OMEGA500"
 config="dtime1800"
 varslist = ['OMEGA500', 'PRECL', 'PRECC']
-configlist = ['dtime1800', 'dtime900', 'tau3600']
+configlist = ['dtime1800', 'dtime900', 'dtime450']
 ourvals=np.empty([len(varslist), len(configlist)])
 for ii, thisvar in enumerate(varslist):
   for jj, config in enumerate(configlist):
-    filename="../freq-hist/OUT_{}_{}_MASKI.nc".format(config, thisvar)
+    filename="../DATA/pdf-freq/OUT_{}_{}_MASKI.nc".format(config, thisvar)
     print(filename)
     ds_disk = xr.open_dataset(filename)
     if thisvar == 'OMEGA500':
@@ -35,7 +35,7 @@ varprettynames = {
 configprettynames = {
     'dtime1800': '$dt_{1800}$',
     'dtime900': '$dt_{900}$',
-    'tau3600': '$dt_{450}$'
+    'dtime450': '$dt_{450}$'
 }
 
 fig = plt.figure()
