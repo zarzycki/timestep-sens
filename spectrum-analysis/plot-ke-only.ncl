@@ -13,17 +13,19 @@ plottitle=""
 do_normalize=True
 plot_ref_lines=False
 
-;single_line_thick=True
-;namesuff="def"
-;filelist=(/"spectrum_VORT850_MASKI_F_dtime1800.nc","spectrum_VORT850_MASKI_F_dtime900.nc","spectrum_VORT850_MASKI_F_tau3600.nc"/)
-;configs_pretty=(/"dt~B~1800~N~","dt~B~900~N~","dt~B~450~N~"/)
-;color_ix = (/4,2,0/)
+fdir="../DATA/spectra/"
 
-single_line_thick=False
-namesuff="sens"
-filelist=(/"spectrum_VORT850_MASKI_F_tau3600_lowdmpdz2.nc","spectrum_VORT850_MASKI_F_tau900.nc","spectrum_VORT850_MASKI_F_tau3600.nc"/)
-configs_pretty=(/"dt~B~450,dmpdz~N~","dt~B~450,~F8~t~F~-~N~","dt~B~450~N~"/)
-color_ix = (/3,1,0/)
+single_line_thick=True
+namesuff="def"
+filelist=(/"spectrum_VORT850_MASKI_F_dtime1800.nc","spectrum_VORT850_MASKI_F_dtime900.nc","spectrum_VORT850_MASKI_F_dtime450.nc"/)
+configs_pretty=(/"dt~B~1800~N~","dt~B~900~N~","dt~B~450~N~"/)
+color_ix = (/4,2,0/)
+
+;single_line_thick=False
+;namesuff="sens"
+;filelist=(/"spectrum_VORT850_MASKI_F_dtime450_lowdmpdz.nc","spectrum_VORT850_MASKI_F_dtime450_tau900.nc","spectrum_VORT850_MASKI_F_dtime450.nc"/)
+;configs_pretty=(/"dt~B~450,dmpdz~N~","dt~B~450,~F8~t~F~-~N~","dt~B~450~N~"/)
+;color_ix = (/3,1,0/)
 
 ;filelabs=(/"reduced HV","control","spectrum_hindcast_conus_30_x8_CAM5_L30.nc"/)
 filelabs=filelist
@@ -35,7 +37,7 @@ spc = new((/nfiles,1000/),"float")
 kkm = new((/nfiles,1000/),"float")
 
 do ii = 0,nfiles-1
-  f1=addfile(filelist(ii),"r")
+  f1=addfile(fdir+"/"+filelist(ii),"r")
   k1a=f1->x
   spc1a=f1->spc
   kkm1a=f1->k
