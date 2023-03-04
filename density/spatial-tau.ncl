@@ -11,14 +11,25 @@ modelnames = tostring(ncdf->model_names)
 basin=1
 basinstr="NATL"
 filename="tau_configs"
+plot_sens=True     ; only set to true if you want to plot the 450 sens runs
 
-plotArr=(/0,1,2,3/)
-;plotArr=(/0,3,4,5/)
+; bounding box settings
+plot_bounding_box = False
+lnminlat=10.
+lnmaxlat=25.
+lnminlon=-60.
+lnmaxlon=-20.
 
-print(ncdf->model_names(plotArr,:))
+allstrings=(/"IBTrACS","dt~B~1800~N~","dt~B~900~N~","dt~B~450~N~","dt~B~450,~F8~t~F~-~N~","dt~B~450,dmpdz~N~"/)
+if (plot_sens) then
+  plotArr=(/0,3,4,5/)    ; if plotting sens
+  appendfile="_sens"
+else
+  plotArr=(/0,1,2,3/)    ; if plotting taus
+  appendfile=""
+end if
+print(modelnames(plotArr))
 
-  
-  
 nfiles=dimsizes(modelnames)
 nfiles=4
 ; ========================================================================
@@ -27,7 +38,7 @@ nfiles=4
 do bb = 0,dimsizes(spapltvarsstr)-1
   thisDir="./fig/spatial/"
   system("mkdir -p "+thisDir)
-  wks = gsn_open_wks("pdf",thisDir+"/"+tostring(spapltvarsstr(bb))+"."+basinstr+"_"+filename)
+  wks = gsn_open_wks("pdf",thisDir+"/"+tostring(spapltvarsstr(bb))+"."+basinstr+"_"+filename+appendfile)
   plot = new(nfiles,"graphic")
   lnid = plot
 
@@ -40,14 +51,14 @@ do bb = 0,dimsizes(spapltvarsstr)-1
     ; currently a hack to make middle 30 colors = white so that the +/- small contours = white
     colorMap1(111:141,0:2)=1.0
     ncontlev=20
-    configs_pretty=(/"-","e.) dt~B~1800~N~ - IBTrACS","f.) dt~B~900~N~ - IBTrACS","g.) dt~B~450~N~ - IBTrACS"/)
+    configs_pretty=(/"-","e.) "+allstrings(plotArr(1))+" - "+allstrings(plotArr(0)),"f.) "+allstrings(plotArr(2))+" - "+allstrings(plotArr(0)),"g.) "+allstrings(plotArr(3))+" - "+allstrings(plotArr(0))/)
   else
     toPlot = where(toPlot.gt.0.,toPlot,toPlot@_FillValue)
     ;colorMap1="WhiteBlueGreenYellowRed"
     colorMap1 = read_colormap_file("../colormaps/inferno.rgb")
     colorMap1 = colorMap1(::-1,:)
     ncontlev = 10
-    configs_pretty=(/"a.) IBTrACS","b.) dt~B~1800~N~","c.) dt~B~900~N~","d.) dt~B~450~N~"/)
+    configs_pretty=(/"a.) "+allstrings(plotArr(0)),"b.) "+allstrings(plotArr(1)),"c.) "+allstrings(plotArr(2)),"d.) "+allstrings(plotArr(3)) /)
   end if
   res                       = True     ; plot mods desired
   res@gsnDraw = False
@@ -83,15 +94,13 @@ do bb = 0,dimsizes(spapltvarsstr)-1
 
   lnres=True
   lnres@gsLineThicknessF = 4.0
-  lnminlat=10.
-  lnmaxlat=25.
-  lnminlon=-60.
-  lnmaxlon=-20.
 
 
   do zz = 0,nfiles-1
-      plot(zz) = gsn_csm_contour_map_ce(wks,toPlot(plotArr(zz),:,:),res)
+    plot(zz) = gsn_csm_contour_map_ce(wks,toPlot(plotArr(zz),:,:),res)
+    if (plot_bounding_box) then 
       lnid(zz) = gsn_add_polyline(wks,plot(zz),(/lnmaxlon,lnmaxlon,lnminlon,lnminlon,lnmaxlon/),(/lnminlat,lnmaxlat,lnmaxlat,lnminlat,lnminlat/),lnres)
+    end if
   end do
 
 

@@ -10,7 +10,7 @@ matplotlib.rcParams['font.sans-serif'] = "Helvetica"
 matplotlib.rcParams['font.family'] = "sans-serif"
 matplotlib.rcParams['pdf.fonttype'] = 42
 
-tcfreqarr = [10.7,13.2,19.5]
+tcfreqarr = [10.6,13.4,19.5]
 #thisvar="OMEGA500"
 config="dtime1800"
 varslist = ['OMEGA500', 'PRECL', 'PRECC']
